@@ -35,19 +35,41 @@ npm run build
 
 ## ✨ Flagship Innovations & Core Features
 
-### 1. 🤖 AeroBot – Magnetic Draggable AI Environmental Assistant
-- **Move Anywhere:** You can drag the floating AeroBot widget anywhere across your screen using a mouse or touch gestures.
-- **Magnetic Edge Docking:** When released, AeroBot automatically calculates the nearest edge and **magnetically snaps and docks to either the left or right side of the screen** (just like assistive touch on smartphones).
-- **Anti-Lost Auto-Rebound:** If thrown or dragged off-screen, it automatically rebounds and clamps safely inside the viewport bounds.
-- **Context-Aware Intelligence:** Injects the currently active station's live AQI and dominant pollutant to provide immediate answers on:
-  - Safe running and outdoor cardio hours.
-  - Certified mask standards (N95/FFP2 vs surgical vs cloth).
-  - NASA-researched indoor air purifying plants (Snake Plant, Areca Palm, Peace Lily).
-  - Pyrotechnic smoke defense and nocturnal window sealing protocols.
+### 1. 🗂️ Sectional Tab Workspace Navigation (Zero Clutter)
+- **Focused Tabbed Workspace (Default):** Instead of stacking all 8 modules on a single overwhelming page, BreatheBetter organizes analytical domains into dedicated views (Overview, Diwali Smog Watch, Pollution Map, Trends & Analytics, 7-Day Forecast, Health Guidance, Compare Cities, and Insights & Glossary).
+- **Interactive Section Banners:** Each section features a domain badge, active station summary, and descriptive subtitle.
+- **Sequential Flow Tour:** Guided `← Previous Section` and `Next Section →` navigation controls at the bottom of each view allow users to tour through the platform step-by-step.
+- **Continuous All-Sections Feed Mode:** Users can toggle from the sticky pill bar at any time to switch to an executive single-page scroll view.
 
 ---
 
-### 2. 🇮🇳 Deep Indian Monitoring Station Network (26+ Stations)
+### 2. 🤖 AeroBot – Magnetic Draggable AI Environmental Assistant
+- **Move Anywhere:** You can drag the floating AeroBot widget anywhere across your screen using a mouse or touch gestures.
+- **Magnetic Edge Docking:** When released, AeroBot automatically calculates the nearest edge and **magnetically snaps and docks to either the left or right side of the screen** (just like assistive touch on smartphones).
+- **Anti-Lost Auto-Rebound:** If thrown or dragged off-screen, it automatically rebounds and clamps safely inside the viewport bounds.
+- **7 Categorized Question Domains:**
+  - `🩺 Health & Vulnerable` • `🏃 Running & Fitness` • `🏠 Air Purifiers & Home` • `🎇 Diwali & Smog Defense` • `🚦 GRAP Rules & Laws` • `🔬 Atmospheric Science` • `All FAQs`
+- **Context-Aware Intelligence:** Injects the currently active station's live AQI and dominant pollutant to provide immediate answers on:
+  - CAQM GRAP regulations (Stages I, II, III, and IV in Delhi-NCR).
+  - Why early morning jogging is the most hazardous during thermal winter smog.
+  - Certified mask standards (N95/FFP2 vs surgical vs cloth) and reusability limits.
+  - Air purifier CADR sizing formulas ($\text{CADR} \ge 2/3 \times \text{sq ft}$) and HEPA maintenance.
+  - NASA-researched indoor air purifying plants (Snake Plant, Areca Palm, Peace Lily).
+  - Pyrotechnic heavy metal smoke defense and nocturnal window sealing protocols.
+
+---
+
+### 3. 📐 Formal UML Diagrams & System Specifications
+Documented in comprehensive detail in [`architecture.md`](./architecture.md):
+- **Formal UML Class Diagram (`classDiagram`)**: Full object-oriented domain model with types, methods, fields, and inheritance/composition.
+- **Formal UML Sequence Diagram (`sequenceDiagram`)**: Step-by-step asynchronous telemetry query, caching, fallback logic, and UI rendering.
+- **Formal UML State Machine Diagram (`stateDiagram-v2`)**: Atmospheric data lifecycle across cold boot, live ingestion, CAMS satellite streaming, and baseline fallbacks.
+- **Formal UML Component & Package Diagram (`graph TD`)**: Package architecture separating `@app/presentation`, `@app/state`, `@app/services`, `@app/storage`, and `@external/apis`.
+- **AeroBot Physics State Machine (`stateDiagram-v2`)**: Physics-based dragging, clamping, and magnetic docking.
+
+---
+
+### 4. 🇮🇳 Deep Indian Monitoring Station Network (26+ Stations)
 Extensive coverage across all Indian geographic zones and pollution belts:
 - **Indo-Gangetic Smog Belt & North:** New Delhi (Anand Vihar, Mandir Marg, RK Puram), Noida, Gurugram, Lucknow (Lalbagh), Kanpur, Patna, Varanasi (BHU), Jaipur, Chandigarh, Srinagar (Dal Lake).
 - **West & Central:** Mumbai (Bandra Kurla Complex, Colaba Coastal), Pune (Shivajinagar SAFAR), Ahmedabad (Maninagar), Bhopal, Indore.
