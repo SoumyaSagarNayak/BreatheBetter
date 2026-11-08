@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="leafGrad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="60%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="windGrad" x1="10" y1="50" x2="90" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a7f3d0" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#6ee7b7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Glow -->
+  <circle cx="50" cy="50" r="44" fill="#10b981" fill-opacity="0.08" stroke="#10b981" stroke-opacity="0.25" stroke-width="1.5"/>
+  
+  <!-- Flowing Wind Trails -->
+  <path d="M18 42C30 42 35 34 46 34C55 34 58 40 68 40C74 40 78 37 80 34" stroke="url(#windGrad)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 54C28 54 36 62 48 62C58 62 64 56 74 56C80 56 84 59 86 62" stroke="url(#windGrad)" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Botanical Leaf Element -->
+  <path d="M50 20C68 20 82 34 82 52C82 68 68 80 50 80C50 62 60 48 50 20Z" fill="url(#leafGrad)" fill-opacity="0.9"/>
+  <!-- Leaf Vein Center Line -->
+  <path d="M50 80C56 68 64 52 74 38" stroke="#ffffff" stroke-opacity="0.75" stroke-width="2" stroke-linecap="round"/>
+  <!-- Side Vein -->
+  <path d="M57 60C62 58 68 59 72 61" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
