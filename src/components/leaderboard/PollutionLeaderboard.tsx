@@ -340,3 +340,4 @@ export const PollutionLeaderboard: React.FC = () => {
     </div>
   );
 };
+
