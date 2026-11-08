@@ -10,6 +10,7 @@ import { HealthRecommendations } from './components/health/HealthRecommendations
 import { CompareCities } from './components/compare/CompareCities';
 import { PollutionInsights } from './components/insights/PollutionInsights';
 import { DiwaliSmogWatch } from './components/diwali/DiwaliSmogWatch';
+import { PollutionLeaderboard } from './components/leaderboard/PollutionLeaderboard';
 import { AirQualityChatbot } from './components/chat/AirQualityChatbot';
 import { Footer } from './components/layout/Footer';
 import { AlertsModal } from './components/modals/AlertsModal';
@@ -34,6 +35,7 @@ import {
   Eye,
   LayoutGrid,
   Sparkles,
+  Trophy,
 } from 'lucide-react';
 import { Button } from './components/ui/Button';
 
@@ -57,6 +59,14 @@ export const AppContent: React.FC = () => {
       desc: 'Live US EPA AQI gauge, health risk score, rule-based interpretation, and WHO 2021 threshold cards.',
       badge: 'Live Telemetry',
       icon: Gauge,
+    },
+    {
+      id: 'leaderboard',
+      label: 'Leaderboard & Finder',
+      fullTitle: 'Global & Indian Pollution Leaderboard & Clean Air Finder',
+      desc: 'Real-time ranking across 50+ monitoring stations. Discover certified Clean Air Havens or inspect regional Smog Belts.',
+      badge: 'Leaderboard & Finder',
+      icon: Trophy,
     },
     {
       id: 'diwali-observatory',
@@ -304,6 +314,12 @@ export const AppContent: React.FC = () => {
                   </div>
                 )}
 
+                {activeNav === 'leaderboard' && (
+                  <div className="animate-fadeIn">
+                    <PollutionLeaderboard />
+                  </div>
+                )}
+
                 {activeNav === 'diwali-observatory' && (
                   <div className="animate-fadeIn">
                     <DiwaliSmogWatch />
@@ -400,6 +416,11 @@ export const AppContent: React.FC = () => {
                 <section id="dashboard" className="space-y-8 animate-fadeIn">
                   <MainAQICard data={airQuality} />
                   <PollutantGrid data={airQuality} />
+                </section>
+
+                {/* Bonus Feature: Global & Indian Pollution Leaderboard & Clean Air Finder */}
+                <section id="leaderboard" className="pt-4">
+                  <PollutionLeaderboard />
                 </section>
 
                 {/* Let's Code Diwali Special Feature: Diwali Smog & Stubble Observatory */}

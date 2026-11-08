@@ -19,6 +19,10 @@ import {
   AlertTriangle,
   CloudRain,
   Wind,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import { useAirQuality } from '../../context/AirQualityContext';
 import { Button } from '../ui/Button';
@@ -38,6 +42,8 @@ export const AirQualityChatbot: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<
     'all' | 'health' | 'sports' | 'purifiers' | 'diwali' | 'rules' | 'science'
   >('all');
+  const [isListening, setIsListening] = useState(false);
+  const [speakingId, setSpeakingId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Position & Draggable State with Magnetic Snapping
@@ -470,6 +476,76 @@ Would you like specific details on air purifier CADR sizing, certified masks, GR
     setInput(prompt);
   };
 
+  // Voice Assistant: Speech Recognition (Speech-to-Text)
+  const handleToggleVoiceInput = () => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert('Voice dictation is not natively supported in this browser. Please use Google Chrome, Edge, or Safari.');
+      return;
+    }
+
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        if (transcript) {
+          setInput(transcript);
+        }
+        setIsListening(false);
+      };
+
+      recognition.onerror = () => {
+        setIsListening(false);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.start();
+    } catch {
+      setIsListening(false);
+    }
+  };
+
+  // Voice Assistant: Text-to-Speech Synthesis
+  const handleToggleSpeech = (msgId: string, text: string) => {
+    if (!('speechSynthesis' in window)) return;
+
+    if (speakingId === msgId) {
+      window.speechSynthesis.cancel();
+      setSpeakingId(null);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/[*#_`•]/g, '').slice(0, 350);
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+
+    utterance.onend = () => setSpeakingId(null);
+    utterance.onerror = () => setSpeakingId(null);
+
+    setSpeakingId(msgId);
+    window.speechSynthesis.speak(utterance);
+  };
+
   return (
     <>
       {/* Draggable Floating Trigger Handle */}
@@ -639,9 +715,30 @@ Would you like specific details on air purifier CADR sizing, certified masks, GR
                       );
                     })}
                   </div>
-                  <span className="block text-[9px] text-right mt-1 opacity-60">
-                    {msg.timestamp}
-                  </span>
+                  <div className="flex items-center justify-between text-[9px] mt-1 pt-1 border-t border-forest-800/40 text-slate-400">
+                    {msg.sender === 'assistant' ? (
+                      <button
+                        onClick={() => handleToggleSpeech(msg.id, msg.text)}
+                        className="flex items-center gap-1 text-[10px] text-emerald-400 hover:text-emerald-300 transition-colors"
+                        title={speakingId === msg.id ? 'Stop Voice Playback' : 'Read Out Loud (Voice Assistant)'}
+                      >
+                        {speakingId === msg.id ? (
+                          <>
+                            <VolumeX className="w-3 h-3 text-rose-400 animate-pulse" />
+                            <span className="text-rose-400">Stop Voice</span>
+                          </>
+                        ) : (
+                          <>
+                            <Volume2 className="w-3 h-3 text-emerald-400" />
+                            <span>Voice Assistant</span>
+                          </>
+                        )}
+                      </button>
+                    ) : (
+                      <span />
+                    )}
+                    <span className="opacity-60">{msg.timestamp}</span>
+                  </div>
                 </div>
                 {msg.sender === 'user' && (
                   <div className="w-6 h-6 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center shrink-0 mt-0.5">
@@ -687,12 +784,30 @@ Would you like specific details on air purifier CADR sizing, certified masks, GR
               }}
               className="flex items-center gap-2"
             >
+              <button
+                type="button"
+                onClick={handleToggleVoiceInput}
+                className={`p-2 rounded-xl border transition-all shrink-0 ${
+                  isListening
+                    ? 'bg-rose-600 text-white border-rose-400 animate-pulse shadow-md'
+                    : 'bg-forest-900/90 text-slate-400 hover:text-white border-forest-800 hover:bg-forest-850'
+                }`}
+                title={isListening ? 'Listening to speech... Click to finish' : 'Voice Assistant: Click to speak'}
+              >
+                {isListening ? (
+                  <MicOff className="w-4 h-4 text-white" />
+                ) : (
+                  <Mic className="w-4 h-4 text-emerald-400" />
+                )}
+              </button>
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about masks, jogging, purifiers, Diwali smog..."
-                className="flex-1 bg-forest-900/90 border border-forest-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/80 transition-colors"
+                placeholder={isListening ? 'Listening to voice dictation...' : 'Ask about masks, jogging, purifiers, Diwali smog...'}
+                className={`flex-1 bg-forest-900/90 border rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors ${
+                  isListening ? 'border-rose-500/80 ring-1 ring-rose-500/50' : 'border-forest-800 focus:border-emerald-500/80'
+                }`}
               />
               <Button
                 type="submit"
